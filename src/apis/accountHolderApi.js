@@ -16,13 +16,17 @@ const dltconfig = {headers: {
 //get data
 export const getUsers = async (data) => {
   // const token = LoginToken();
-  loginToken();
-  console.log(config,"token===Get payload", data);
-  return await getRequest(data);
+  // loginToken();
+  console.log("Token===",localStorage.getItem('token'));
+  const aa =  {
+    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+  };
+  console.log(aa,"token===Get payload", data);
+  return await getRequest(data,aa);
   // return "called";
 };
 
-export const getRequest= (data) => axios.get("/holders",config)
+export const getRequest= (data,tokenVal) => axios.get("/holders",tokenVal)
   .then(function (response) {
     console.log("in getRequest...",response.data);
 

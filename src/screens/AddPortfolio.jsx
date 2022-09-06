@@ -38,7 +38,7 @@ const AddPortfolio = ({ history }) => {
     useEffect(() =>{
         console.log("Portfolio store store Data: " , storeData);
         if(storeData!== undefined && storeData.success){
-            setMsg('Scheme added to your portfolio successfully.To add new Scheme PLease enter again ');
+            setMsg('Scheme added to your portfolio successfully and you can check in Investment Report section.To add new Scheme PLease enter again ');
         }else{
             setMsg('');
         }

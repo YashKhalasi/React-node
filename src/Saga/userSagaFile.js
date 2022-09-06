@@ -47,8 +47,8 @@ export function* addNewUser({ payload }) {
 
   export function* deletetNewUser({ payload }) {
     try {
-      console.log("delkete user..",payload)
-      const response = yield call(api.deleteUser,payload);
+      console.log("delkete user..",payload.data)
+      const response = yield call(api.deleteUser,payload.data);
       console.log("edited response called",response);
       if (response.success) {
         yield put(userDataAction.fetchSuccess({ data: response}));

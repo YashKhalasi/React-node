@@ -34,7 +34,7 @@ console.log("Cards Data..",props);
             })}
           </tbody>
         </table>
-    <button>Go somewhere</button>
+    {/* <button>Go somewhere</button> */}
   </div>
 </div>
 </>

@@ -18,6 +18,7 @@ const initialValues = {
   loginId: "",
   password: "",
   confirmPassword: "",
+  checked: ["111",]
 };
 
 
@@ -31,7 +32,7 @@ const validationSchema = Yup.object({
   .required("Please enter your Name"),
 
   emailID: Yup.string().email("Invalid email format").max(255).required("Please enter your Email id"),
-  loginId: Yup.number().positive().required("Please enter your Account number").max(11).min(2),
+  loginId: Yup.number().positive().required("Please enter your Account number").min(2),
   portfolio: Yup.number().positive().required("Please enter your Portfolio").test(
     'is-decimal',
     'invalid decimal',
@@ -89,6 +90,9 @@ const Signup = ({ history }) => {
   const onSubmit = (values, submitProps) => {
     console.log("Form data", values);
     console.log("submitProps", submitProps);
+
+    let ck = (values.checked).toString();
+    console.log("checked roles..", ck); 
   
     if (values.confirmPassword === values.password) {
       setPassMatch(null);
@@ -99,6 +103,7 @@ const Signup = ({ history }) => {
         holder_portfolio: values.portfolio,
         holder_Active: true,
         holder_Password: values.confirmPassword,
+        holder_Role:ck
       };
       console.log("signup details...", data);
   
@@ -138,6 +143,7 @@ const Signup = ({ history }) => {
     history.push({ pathname: "/login" });
     setUserData(undefined);
   }
+
 
   return (
     <>
@@ -195,6 +201,28 @@ const Signup = ({ history }) => {
                     Account Number
                   </label>
                   <Field type="number" id="loginId" name="loginId" />
+                  <ErrorMessage name="loginId" component={TextError} />
+                </div>
+
+                <div className="mb-3 form-control">
+                  <label className="p-2" htmlFor="loginId">
+                    Choose Role
+                  </label>
+                  <div role="group" aria-labelledby="checkbox-group">
+                  <label>
+                    <Field type="checkbox" name="checked" value="111" />
+                    Partner
+                  </label>
+                  <label>
+                    <Field type="checkbox" name="checked" value="122" />
+                    Advisor
+                  </label>
+                  <label>
+                    <Field type="checkbox"  name="checked" value="133" />
+                    Investor
+                  </label>
+                </div>
+
                   <ErrorMessage name="loginId" component={TextError} />
                 </div>
 

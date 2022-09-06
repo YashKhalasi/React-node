@@ -9,6 +9,9 @@ const Table = (props) => {
 
   const dispatch = useDispatch();
   const storeData = useSelector(state => state.userData);
+  const loginStoreData = useSelector( (state) => state.loginUser );
+  const userRole_Advisor =( loginStoreData.userRole)!== null?( loginStoreData.userRole).includes('Advisor'):null;
+  console.log("Table userRole_Advisor=>",userRole_Advisor);
 
   const [deletUserData,setDeleteUserData]= useState([]);
   const [editUser,setEditUser]=useState(false);
@@ -73,20 +76,20 @@ const Table = (props) => {
     // props.apiCall(false);
   }
 
-  const deleteUser =(holder_accno)=>{
-    console.log("Delete User  Data", holder_accno);
+  const deleteUser =(data)=>{
+    console.log(data.holder_Role,"Delete User  Data", data.holder_accno);
 
     dispatch(
       userDataAction.deletetUser({
-        data:{holder_accno}
+        data:{holder_accno:data.holder_accno,holder_Role:data.holder_Role}
       })
     );
 
-    const deteletUserData = async () => {
-      const { data } = await axios.delete('/holders',{data:{holder_accno}});
-      console.log("Login users..",data)
-      setDeleteUserData(data);
-  }
+  //   const deteletUserData = async () => {
+  //     const { data } = await axios.delete('/holders',{data:{holder_accno}});
+  //     console.log("Login users..",data)
+  //     setDeleteUserData(data);
+  // }
   // deteletUserData();
   props.apiCall(false);
   }
@@ -130,11 +133,12 @@ const tableData =  storeData.usersAllData.data;
                     <td>{list.holder_email }</td>
                     <td>{list.holder_accno}</td>
                     <td>{list.holder_portfolio}</td>
-                    <td><Button variant="primary" onClick={()=>editUserData(list, index+1)}>Edit User</Button></td>
+                    {userRole_Advisor?
+                    <td><Button variant="primary" onClick={()=>editUserData(list, index+1)}>Edit User</Button></td>:null}
                   </>
                   }
 
-                  <td><Button variant="danger" onClick={()=>deleteUser(list.holder_accno)}>Delete User</Button></td>
+                  <td><Button variant="danger" onClick={()=>deleteUser(list)}>Delete User</Button></td>
                 </tr>
               );
             })}

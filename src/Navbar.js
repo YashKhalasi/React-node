@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import { userDataAction } from "./slice/user";
 import { userInvestmentAction } from "./slice/investmentsSlice";
 import { userPortfolioAction } from "./slice/portfolioSlice";
@@ -9,6 +9,12 @@ import  {userLoginAction}  from "./slice/loginSlice";
 const NavBar = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const loginStoreData = useSelector( (state) => state.loginUser);
+
+  
+  const userRole_Investor =( loginStoreData.userRole)!== null?( loginStoreData.userRole).includes('Investor'):null;
+  const userRole_Partner =( loginStoreData.userRole)!== null?( loginStoreData.userRole).includes('Partner'):null;
+  const userRole_Advisor =( loginStoreData.userRole)!== null?( loginStoreData.userRole).includes('Advisor'):null;
 
   let loginUser = localStorage.getItem('userLogin');
   const [userLoggIn,setUserLoggIn] = useState(true);
@@ -41,7 +47,12 @@ const NavBar = (props) => {
 
   const goToInvestments = (e) => {
     // console.log("goToUSerList",history);
-    dispatch(userInvestmentAction.getInvestments({}));
+    console.log(loginStoreData.loginUserDetails,"Is User Investor? =>",userRole_Investor)
+    if(!userRole_Partner && !userRole_Advisor){
+      dispatch(userInvestmentAction.getInvestments({data:loginStoreData.loginUserDetails}));
+    }else{
+      dispatch(userInvestmentAction.getInvestments({}));
+    }
     dispatch(userPortfolioAction.removePortfolioData({}));
 
     history.push("/investment");
@@ -60,6 +71,8 @@ const NavBar = (props) => {
     }
   },[loginUser,userLoggIn])
   console.log(userLoggIn,"Navbar ..",localStorage.getItem('userLogin'));
+
+  console.log("Navbar userRole_Investor=>",userRole_Investor,"=userRole_Partner=>",userRole_Partner,"=userRole_Advisor=>",userRole_Advisor);
   return (
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
       <div class="container-fluid">
@@ -68,10 +81,11 @@ const NavBar = (props) => {
           className="btn btn-primary" 
           onClick={() => history.push("/homepage")}><b className="p-2 text-dark" >Dashboard</b></button>
         {/* {localStorage.getItem("userLogin") !== "false"? ( */}
-        {userLoggIn ? (
+        { userLoggIn ? (
           <>
             <div className="collapse navbar-collapse" id="navbarNavDropdown">
               <ul class="navbar-nav">
+                {userRole_Partner || userRole_Advisor?
                 <li>
                   <button
                     type="button"
@@ -81,7 +95,7 @@ const NavBar = (props) => {
                   >
                     View Register Users
                   </button>
-                </li>
+                </li>:null}
 
                 <li>
                   <button
