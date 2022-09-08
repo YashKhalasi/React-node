@@ -9,6 +9,7 @@ import UserInvestments from './screens/UserInvestments'
 import NavBar from './Navbar';
 import NotFoundPage from './screens/NotFoundPage';
 import Restricted from './screens/Restricted';
+import VerifyUser from './screens/VerifyUser';
 import { useSelector } from "react-redux";
 
 const App = () => {
@@ -54,12 +55,14 @@ const App = () => {
 
       <ProtectedRoute exact path='/' component={LoginUser} />
         <Route exact path='/Signup' component={Signup} />
+        <Route  path="/verify" component={VerifyUser} />
         <ProtectedRoute exact path='/homepage' component={HomePage} />
         <ProtectedRoute exact path='/users' component={ShowUserList} />
         <ProtectedRoute exact path='/addPortfolio' component={AddPortfolio} />
         <ProtectedRoute exact path='/investment' component={UserInvestments} />
 
         <Route path="*" component={NotFoundPage} />
+        
 
         {/* <Route exact path='/products' component={ShowProducts} />
         <Route exact path='/product/edit/:id' component={EditProduct} />

@@ -112,7 +112,9 @@ const LoginUser = ({ history }) => {
             {loginStoreData !== undefined ? <p className='text-danger'>{loginStoreData.message}</p> :null}
             {loginStoreData !== undefined ? <p className='text-danger'>{loginStoreData.data}</p> :null}
 
-            {storeData !== undefined && Object.keys(storeData).length >0? <p className='text-success mt-3'>{storeData.data.message}</p> : null}
+            {storeData !== undefined && Object.keys(storeData).length >0? 
+                <p className='text-success mt-3'>{!loginStoreData?.data?storeData.data.message:null}</p> 
+                : null}
             </Container>
         </>
     )

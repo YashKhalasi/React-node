@@ -79,7 +79,8 @@ const NavBar = (props) => {
         <button 
           type="button" 
           className="btn btn-primary" 
-          onClick={() => history.push("/homepage")}><b className="p-2 text-dark" >Dashboard</b></button>
+          // onClick={() => history.push("/homepage")}
+          ><b className="p-2 text-dark" >Finance</b></button>
         {/* {localStorage.getItem("userLogin") !== "false"? ( */}
         { userLoggIn ? (
           <>
@@ -124,6 +125,10 @@ const NavBar = (props) => {
 
             <div className="d-flex flex-row-reverse px-5">
               <button onClick={logout}>Logout</button>
+            <button 
+          type="button" 
+          className="btn btn-primary" 
+          onClick={() => history.push("/homepage")}><b className="p-2 text-dark" >Profile</b></button>
             </div>
           </>
         ) : null}
